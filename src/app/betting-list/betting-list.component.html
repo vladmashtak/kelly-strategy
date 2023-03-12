@@ -1,0 +1,48 @@
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th class="col-md-1">#</th>
+    <th class="col-md-9">
+      <div class="row">
+        <div class="col-md-2">Bet Name</div>
+        <div class="col-md-2">Bet Type</div>
+        <div class="col-md-2">Current Coef</div>
+        <div class="col-md-2">Fair Win Prob</div>
+        <div class="col-md-2">Fair Win Coef</div>
+        <div class="col-md-2">Kelly Bet Size</div>
+      </div>
+    </th>
+    <th class="col-md-2">Resolve Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let bet of bettingList; index as i">
+    <th class="col-md-1" scope="row">{{i + 1}}</th>
+    <td class="col-md-9">
+      <div class="row">
+        <div class="col-md-2">
+          {{bet.betName}}
+        </div>
+        <div class="col-md-2">
+          {{bet.betType}}
+        </div>
+        <div class="col-md-2">
+          {{bet.currentCoef}}
+        </div>
+        <div class="col-md-2">
+          {{bet.fairWinProb}}
+        </div>
+        <div class="col-md-2">
+          {{bet.fairCoef}}
+        </div>
+        <div class="col-md-2">
+          {{bet.kellyBetSize}}
+        </div>
+      </div>
+    </td>
+    <td class="col-md-3">
+      <input class="form-check-input" type="checkbox" [checked]="bet.resolved" [disabled]="bet.resolved" (click)="resolve(bet)">
+    </td>
+  </tr>
+  </tbody>
+</table>

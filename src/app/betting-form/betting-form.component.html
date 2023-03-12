@@ -1,0 +1,56 @@
+<div class="card">
+  <div class="card-header">
+    Kelly criterion bet strategy
+  </div>
+  <div class="card-body">
+    <form [formGroup]="bettingForm" novalidate (keyup.enter)="saveBettingItem()">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="current-bank-roll">Current Bank roll</label>
+          <input id="current-bank-roll" type="number" [value]="currentBankRoll" readonly class="form-control" aria-label="Bank roll">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" formControlName="name" id="Name" aria-label="Name">
+        </div>
+        <div class="col">
+          <label for="bet-type">Bet type</label>
+          <input type="text" class="form-control" formControlName="betType" id="bet-type" aria-label="Bet type">
+        </div>
+        <div class="col-md-8" formGroupName="firstSubEvent">
+          <div class="row">
+            <div class="col">
+              <input type="number" class="form-control" formControlName="currentCoef" placeholder="Coefficient" aria-label="Current coef">
+            </div>
+            <div class="col">
+              <input type="number" class="form-control" formControlName="fairCoef" placeholder="Fair coefficient" aria-label="Fair coef">
+            </div>
+            <div class="col">
+              <input type="number" class="form-control" formControlName="fairWinProb" placeholder="Fair win probability" aria-label="Fair win prob">
+            </div>
+            <div class="col">
+              <input type="number" class="form-control" formControlName="kellyBetSize" placeholder="Kelly bet size" aria-label="Kelly bet size">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" formGroupName="secondSubEvent">
+        <div class="col offset-lg-4">
+          <input type="number" class="form-control" formControlName="currentCoef" placeholder="Coefficient" aria-label="Current coef">
+        </div>
+        <div class="col">
+          <input type="number" class="form-control" formControlName="fairCoef" placeholder="Fair coefficient" aria-label="Fair coef">
+        </div>
+        <div class="col">
+          <input type="number" class="form-control" formControlName="fairWinProb" placeholder="Fair win probability" aria-label="Fair win prob">
+        </div>
+        <div class="col">
+          <input type="number" class="form-control" formControlName="kellyBetSize" placeholder="Kelly bet size" aria-label="Kelly bet size">
+        </div>
+      </div>
+    </form>
+    <button type="button" class="btn btn-primary col-md-2" [disabled]="!bettingForm.valid" (click)="saveBettingItem()">Place a bat</button>
+  </div>
+</div>
