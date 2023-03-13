@@ -1,4 +1,7 @@
-<app-betting-form [current-bank-roll]="currentBankRoll" (get-betting-item)="getBettingItem($event)">
+<app-betting-form [current-bank-roll]="currentBankRoll" [betting-item]="editItem" (get-betting-item)="saveBettingItem($event)">
 </app-betting-form>
-<app-betting-list [betting-list]="bettingList" (resolve-betting-item)="updateBettingItem($event)">
+<app-betting-list [betting-list]="bettingList"
+                  (resolve-betting-item)="updateBettingItem($event)"
+                  (delete-betting-item)="deleteBettingItem($event)"
+                  (edit-betting-item)="editBettingItem($event)">
 </app-betting-list>

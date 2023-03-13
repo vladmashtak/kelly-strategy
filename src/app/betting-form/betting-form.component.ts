@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {BettingItemDto} from "../models/betting-item-dto";
 
@@ -7,7 +7,11 @@ import {BettingItemDto} from "../models/betting-item-dto";
   templateUrl: './betting-form.component.html',
   styleUrls: ['./betting-form.component.scss']
 })
-export class BettingFormComponent implements OnInit {
+export class BettingFormComponent implements OnInit, OnChanges {
+
+  @Input("betting-item")
+  //@ts-ignore
+  public bettingItem: BettingItemDto = null;
 
   @Input("current-bank-roll")
   public currentBankRoll: number = 0
@@ -57,10 +61,20 @@ export class BettingFormComponent implements OnInit {
     }
   }
 
-  public calculateBet() {
-    // let firstSubEvent = this.bettingForm.get('firstSubEvent')
-    // let secondSubEvent = this.bettingForm.get('secondSubEvent')
+  public ngOnChanges(): void {
+    if (!!this.bettingItem) {
+      this.bettingForm.patchValue({
+        name: this.bettingItem.betName,
+        betType: this.bettingItem.betType,
+        firstSubEvent: {
+          //@ts-ignore
+          currentCoef: this.bettingItem.currentCoef
+        }
+      })
+    }
+  }
 
+  public calculateBet() {
     let value = this.bettingForm.getRawValue();
     let firstWinProb = 0
     let secondWinProb = 0
@@ -111,8 +125,11 @@ export class BettingFormComponent implements OnInit {
     let event = val.firstSubEvent.fairWinProb > val.secondSubEvent.fairWinProb ? val.firstSubEvent : val.secondSubEvent
 
     // @ts-ignore
-    let data = new BettingItemDto(val.betType,
-      val.name, event.currentCoef, event.fairWinProb, event.fairCoef, event.kellyBetSize);
+    let data = !!this.bettingItem ? new BettingItemDto(this.bettingItem.id, val.betType,
+      val.name, event.currentCoef, event.fairWinProb, event.fairCoef, event.kellyBetSize) :
+      // @ts-ignore
+      new BettingItemDto("", val.betType,
+        val.name, event.currentCoef, event.fairWinProb, event.fairCoef, event.kellyBetSize)
 
     this.getBettingItem.emit(data)
     this.bettingForm.reset()

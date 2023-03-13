@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BettingItemDto} from "./models/betting-item-dto";
 import {LocalStorageDto} from "./models/local-storage-dto";
 
@@ -44,21 +44,25 @@ export class BettingService {
     return this.currentBankRoll
   }
 
-  public updateBettingItem(item: BettingItemDto): void {
+  public updateBettingItem(newItem: BettingItemDto): void {
     for (let i = 0; i < this.bettingItemList.length; i++) {
-      if (this.bettingItemList[i].id === item.id) {
+      let oldItem = this.bettingItemList[i];
+      if (oldItem.id === newItem.id) {
         let storage = new LocalStorageDto();
-
-        let list = [...this.bettingItemList]
-        list[i] = item
-        this.bettingItemList = list
-        storage.bettingItemList = list
-
-        if (item.resolved) {
-          let bankRoll = this.currentBankRoll + (item.kellyBetSize * item.currentCoef);
-          this.currentBankRoll = bankRoll
-          storage.currentBankRoll = bankRoll
+        if (newItem.resolved) {
+          let bankRoll = this.currentBankRoll + (newItem.kellyBetSize * newItem.currentCoef);
+          this.currentBankRoll = bankRoll;
+          storage.currentBankRoll = bankRoll;
+        } else {
+          let bankRoll = (this.currentBankRoll + oldItem.kellyBetSize) - newItem.kellyBetSize;
+          this.currentBankRoll = bankRoll;
+          storage.currentBankRoll = bankRoll;
         }
+
+        let list = [...this.bettingItemList];
+        list[i] = newItem;
+        this.bettingItemList = list;
+        storage.bettingItemList = list;
 
         localStorage.setItem(this.key, JSON.stringify(storage))
         return
@@ -66,4 +70,25 @@ export class BettingService {
     }
   }
 
+  public deleteBettingItem(item: BettingItemDto): void {
+    for (let i = 0; i < this.bettingItemList.length; i++) {
+      let oldItem = this.bettingItemList[i];
+      if (oldItem.id === item.id) {
+        let storage = new LocalStorageDto();
+
+        if (!item.resolved) {
+          this.currentBankRoll += oldItem.kellyBetSize
+          storage.currentBankRoll = this.currentBankRoll;
+        }
+
+        let list = [...this.bettingItemList];
+        list.splice(i, 1);
+        this.bettingItemList = list;
+        storage.bettingItemList = this.bettingItemList;
+
+        localStorage.setItem(this.key, JSON.stringify(storage));
+        return
+      }
+    }
+  }
 }
