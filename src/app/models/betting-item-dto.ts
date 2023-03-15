@@ -8,7 +8,8 @@ export class BettingItemDto {
   fairWinProb: number;
   fairCoef: number;
   kellyBetSize: number;
-  resolved: boolean
+  resolved: boolean;
+  disabled: boolean;
 
   constructor(id: string = "",
               betType: string = "",
@@ -17,7 +18,8 @@ export class BettingItemDto {
               fairWinProb: number = 0.0,
               fairCoef: number = 0.0,
               kellyBetSize: number = 0.0,
-              resolved: boolean = false) {
+              resolved: boolean = false,
+              disabled: boolean = false) {
     if (!id) {
       this.id = generateUUID();
     } else {
@@ -30,5 +32,6 @@ export class BettingItemDto {
     this.fairCoef = fairCoef;
     this.kellyBetSize = kellyBetSize;
     this.resolved = resolved;
+    this.disabled = disabled;
   }
 }

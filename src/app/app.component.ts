@@ -43,8 +43,7 @@ export class AppComponent implements OnInit {
 
   public editBettingItem(item: BettingItemDto): void {
     this.editItem = {...item};
-    console.log(this.editItem)
-    // this.refreshData();
+    this.refreshData();
   }
 
   private refreshData(): void {

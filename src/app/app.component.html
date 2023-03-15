@@ -2,6 +2,7 @@
 </app-betting-form>
 <app-betting-list [betting-list]="bettingList"
                   (resolve-betting-item)="updateBettingItem($event)"
+                  (disabled-betting-item)="updateBettingItem($event)"
                   (delete-betting-item)="deleteBettingItem($event)"
                   (edit-betting-item)="editBettingItem($event)">
 </app-betting-list>

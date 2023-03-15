@@ -14,6 +14,9 @@ export class BettingListComponent {
   @Output("resolve-betting-item")
   public resolveBettingItem: EventEmitter<BettingItemDto> = new EventEmitter<BettingItemDto>()
 
+  @Output("disabled-betting-item")
+  public disabledBettingItem: EventEmitter<BettingItemDto> = new EventEmitter<BettingItemDto>()
+
   @Output("delete-betting-item")
   public deleteBettingItem: EventEmitter<BettingItemDto> = new EventEmitter<BettingItemDto>()
 
@@ -22,9 +25,16 @@ export class BettingListComponent {
 
 
   public resolve(bet: BettingItemDto): void {
-    if (!bet.resolved) {
+    if (!bet.resolved && !bet.disabled) {
       bet.resolved = true;
       this.resolveBettingItem.emit({...bet});
+    }
+  }
+
+  public disabled(bet: BettingItemDto): void {
+    if (!bet.resolved && !bet.disabled) {
+      bet.disabled = true;
+      this.disabledBettingItem.emit({...bet});
     }
   }
 
