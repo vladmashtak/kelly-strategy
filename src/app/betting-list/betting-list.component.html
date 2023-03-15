@@ -1,15 +1,16 @@
 <table class="table table-hover">
   <thead>
   <tr>
-    <th class="col-md-1">#</th>
-    <th class="col-md-9">
+    <th class="">#</th>
+    <th class="col-md-10">
       <div class="row">
         <div class="col-md-2">Bet Name</div>
         <div class="col-md-2">Bet Type</div>
-        <div class="col-md-2">Current Coef</div>
-        <div class="col-md-2">Fair Win Prob</div>
+        <div class="col-md-1">Coef</div>
+        <div class="col-md-1">Prob</div>
         <div class="col-md-2">Fair Win Coef</div>
         <div class="col-md-2">Kelly Bet Size</div>
+        <div class="col-md-2">Win Value</div>
       </div>
     </th>
     <th class="col-md-2">Action</th>
@@ -17,8 +18,8 @@
   </thead>
   <tbody>
   <tr *ngFor="let bet of bettingList; index as i" [ngClass]="{'bet-disabled': bet.disabled, 'bet-win': bet.resolved}">
-    <th class="col-md-1" scope="row">{{i + 1}}</th>
-    <td class="col-md-9">
+    <th class="" scope="row">{{i + 1}}</th>
+    <td class="col-md-10">
       <div class="row">
         <div class="col-md-2">
           {{bet.betName}}
@@ -26,11 +27,11 @@
         <div class="col-md-2">
           {{bet.betType}}
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
           {{bet.currentCoef}}
         </div>
-        <div class="col-md-2">
-          {{bet.fairWinProb}}
+        <div class="col-md-1">
+          {{bet.fairWinProb * 100 | number: '1.0-0'}} %
         </div>
         <div class="col-md-2">
           {{bet.fairCoef}}
@@ -38,9 +39,12 @@
         <div class="col-md-2">
           {{bet.kellyBetSize}}
         </div>
+        <div class="col-md-2">
+          {{bet.kellyBetSize * bet.currentCoef}}
+        </div>
       </div>
     </td>
-    <td class="col-md-3">
+    <td class="col-md-2">
       <div class="row">
         <div class="col action-button-1">
           <div class="row">
